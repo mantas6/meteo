@@ -1,0 +1,10 @@
+#!/bin/sh
+
+config_path="${XDG_CONFIG_HOME:-$HOME/.config}"
+config_dir="$config_path/meteo"
+file_path="$config_dir/place_code"
+
+[ "$1" = 'set' ] && mkdir -v "$config_dir" && echo "$2" > "$file_path" && exit 0
+
+[ -f "$file_path" ] && printf "%s" $(cat "$file_path") || echo "Configuration file not found!" && exit 1
+
