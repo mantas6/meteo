@@ -12,10 +12,11 @@ creation_time=$(echo "$results" | jq -r '.forecastCreationTimeUtc')
 
 printf "%s\nCreated at: %s\n\n" "$place_title" "$creation_time"
 
-report=$(echo "$results" | jq --arg now "$now" -r \
+report=$(echo "$results" | jq --arg now "$now" --arg offset 3 -r \
     '.forecastTimestamps[]
     | select(.forecastTimeUtc >= $now)
     | .forecastTime = (.forecastTimeUtc | split(" ") | join("T")) + "Z"
+    | .forecastTime |= (fromdate | . | strflocaltime("%a %d %Hh"))
     | "\(.forecastTime)\t\(.feelsLikeTemperature)\t\(.conditionCode)"'
 );
 
