@@ -15,7 +15,8 @@ printf "%s\nCreated at: %s\n\n" "$place_title" "$creation_time"
 report=$(echo "$results" | jq --arg now "$now" -r \
     '.forecastTimestamps[]
     | select(.forecastTimeUtc >= $now)
-    | "\(.forecastTimeUtc)\t\(.feelsLikeTemperature)\t\(.conditionCode)"'
+    | .forecastTime = (.forecastTimeUtc | split(" ") | join("T")) + "Z"
+    | "\(.forecastTime)\t\(.feelsLikeTemperature)\t\(.conditionCode)"'
 );
 
 echo "$report" | column -t
