@@ -8,11 +8,15 @@ results=$(curl -s "https://api.meteo.lt/v1/places/$place_code/forecasts/long-ter
 now=$(date -u +"%Y-%m-%d %H:00:00")
 
 place_title=$(echo "$results" | jq -r '.place.name')
+creation_time=$(echo "$results" | jq -r '.forecastCreationTimeUtc')
 
-echo "$place_title"
+printf "%s\nCreated at: %s\n\n" "$place_title" "$creation_time"
 
-echo "$results" | jq --arg now "$now" -r \
+report=$(echo "$results" | jq --arg now "$now" -r \
     '.forecastTimestamps[]
     | select(.forecastTimeUtc >= $now)
-    | "\(.forecastTimeUtc)\t\(.feelsLikeTemperature)\t\(.conditionCode)"' \
-    | column -t
+    | "\(.forecastTimeUtc)\t\(.feelsLikeTemperature)\t\(.conditionCode)"'
+);
+
+echo "$report" | column -t
+
