@@ -1,2 +1,2 @@
 # meteo
-meteo.lt api bash wrapper
+Modular meteo.lt API shell wrapper

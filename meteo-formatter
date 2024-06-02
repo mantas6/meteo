@@ -1,0 +1,10 @@
+#!/bin/sh
+
+input=$(cat)
+
+report=$(echo "$input" | jq -r \
+    '"\(.forecastTime)\t\(.feelsLikeTemperature)\t\(.conditionCode)"'
+);
+
+echo "$report" | column -t
+
