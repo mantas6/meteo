@@ -1,3 +1,0 @@
-#!/bin/sh
-
-curl -s https://api.meteo.lt/v1/places | jq -r '.[].code'
