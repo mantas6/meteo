@@ -33,7 +33,7 @@ print_header() {
 }
 
 format_forecast() {
-   echo "$1" | jq -r '.[] | "\(.forecastTime)\t\(.feelsLikeTemperature)\t\(.conditionCode)"' | column -t
+    echo "$1" | jq -r '.[] | "\(.forecastTime)\t\(.feelsLikeTemperature)\t\(.totalPrecipitation)\t\(.conditionCode)"' | column -t
 }
 
 options=$(getopt -l "list-places,place:,write-place:,raw" -o "Lp:s:r" -a -- "$@")
