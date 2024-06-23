@@ -3,6 +3,9 @@
 place_file="${XDG_CONFIG_HOME:-$HOME/.config}/meteo/place_code"
 place_code=$(cat "$place_file")
 
+lines=$(tput lines)
+forecast_length=$(("$lines" - 10))
+
 list_places() {
     curl -s https://api.meteo.lt/v1/places | jq -r '.[].code'
 }
@@ -68,7 +71,7 @@ do
             forecast=$(get_forecast)
             expanded=$(expand_forecast "$forecast")
             print_header "$forecast"
-            format_forecast "$expanded" | head -n 20
+            format_forecast "$expanded" | head -n "$forecast_length"
             break;;
     esac
     shift
